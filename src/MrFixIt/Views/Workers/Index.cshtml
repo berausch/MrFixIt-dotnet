@@ -5,6 +5,9 @@
 }
 
 
+
+@model MrFixIt.Models.Worker
+
 @if (User.Identity.IsAuthenticated)
 {
 
@@ -13,7 +16,46 @@
         <h3>Your Current Jobs:</h3>
         @foreach (var Job in Model.Jobs)
         {
-            <h5>@Job.Title</h5>
+            <h5>@Job.Title | </h5>
+
+            @if (@Job.Pending == false)
+            {
+                <div class="@("hide-pending-" + Job.JobId)">
+                    <p>Current Status: Claimed</p>
+
+                    <form action="ActiveJob" class="@("active-job-" + Job.JobId)">
+                        <input type="hidden" value="@Job.JobId" name="id" />
+                        <button type="submit">Change Status to Pending</button>
+                    </form>
+                </div>
+                <div id="@("result-pending-" + Job.JobId)"></div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $("@(".active-job-" + @Job.JobId)").click(function (event) {
+                            event.preventDefault();
+                            $.ajax({
+                                type: 'GET',
+                                data: {id :  @Job.JobId},
+                                url: '@Url.Action("ActiveJob")',
+                                success: function (result) {
+                                    var resultPend = "#result-pending-" + @Job.JobId;
+                                    console.log(@Job.JobId);
+                                    $("@(".hide-pending-" + @Job.JobId)").hide();
+                                    var resultPendDisplay = "<p>Current Status: Pending";
+                                    $(resultPend).html(resultPendDisplay);
+                                    }
+                                });
+                            });
+                        });
+                </script>
+            }
+            else
+            {
+                <p>Current Status: Pending</p>
+
+            }
+
+
 
         }
         @if (Model.Avaliable)
