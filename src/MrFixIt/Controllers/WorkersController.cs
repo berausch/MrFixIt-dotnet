@@ -50,5 +50,24 @@ namespace MrFixIt.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public IActionResult UndoActiveJob(int id)
+        {
+            var thisJob = db.Jobs.FirstOrDefault(items => items.JobId == id);
+            thisJob.Pending = false;
+            db.Entry(thisJob).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult CompleteJob(int id)
+        {
+            var thisJob = db.Jobs.FirstOrDefault(items => items.JobId == id);
+            thisJob.Pending = false;
+            thisJob.Completed = true;
+            db.Entry(thisJob).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

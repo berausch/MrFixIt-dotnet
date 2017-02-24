@@ -3,60 +3,119 @@
 *@
 @{
 }
-
+<script>
+    $(document).ready(function () {
+        $()
+    });
+</script>
 
 
 @model MrFixIt.Models.Worker
 
 @if (User.Identity.IsAuthenticated)
 {
-
+    
     <div class="text-center">
         <h4>Hello Worker @Model.FirstName @Model.LastName. You are Logged In</h4>
         <h3>Your Current Jobs:</h3>
+        <hr />
         @foreach (var Job in Model.Jobs)
         {
-            <h5>@Job.Title | </h5>
+            
+            <h4>@Job.Title</h4>
 
-            @if (@Job.Pending == false)
+            @if (@Job.Completed == true)
             {
-                <div class="@("hide-pending-" + Job.JobId)">
-                    <p>Current Status: Claimed</p>
+                <h5> Current Status: Completed </h5>
 
-                    <form action="ActiveJob" class="@("active-job-" + Job.JobId)">
-                        <input type="hidden" value="@Job.JobId" name="id" />
-                        <button type="submit">Change Status to Pending</button>
-                    </form>
-                </div>
-                <div id="@("result-pending-" + Job.JobId)"></div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $("@(".active-job-" + @Job.JobId)").click(function (event) {
-                            event.preventDefault();
-                            $.ajax({
-                                type: 'GET',
-                                data: {id :  @Job.JobId},
-                                url: '@Url.Action("ActiveJob")',
-                                success: function (result) {
-                                    var resultPend = "#result-pending-" + @Job.JobId;
-                                    console.log(@Job.JobId);
-                                    $("@(".hide-pending-" + @Job.JobId)").hide();
-                                    var resultPendDisplay = "<p>Current Status: Pending";
-                                    $(resultPend).html(resultPendDisplay);
-                                    }
-                                });
-                            });
+            }
+
+             else if (@Job.Pending == false)
+            {
+                <script>
+                       $(document).ready(function () {
+                           $("@(".result-pending-undo-hide-" + @Job.JobId)").hide();
                         });
                 </script>
+
+                <div id="@("result-pending-display-" + Job.JobId)"></div>
+                <div id="@("result-complete-display-" + Job.JobId)"></div>
+
+                    <h5><span class="@("hide-pending-" + Job.JobId)">Current Status: Claimed</span></h5>
+                    <h5><span class="@("result-pending-undo-hide-" + Job.JobId)">Current Status: Pending </span></h5>
+                    <p><span class="@("result-pending-undo-hide-" + Job.JobId)"><a class="@("result-pending-undo-" + Job.JobId)">Undo Pending</a> | </span><span class="@("hide-pending-" + Job.JobId)"><a class="@("active-job-" + Job.JobId)">Change to Pending</a> | </span><a class="@("result-complete-" + Job.JobId)">Change to Complete</a></p>
+
+
+                
+                <br />
+
+
             }
-            else
+            else if (@Job.Pending == true)
             {
-                <p>Current Status: Pending</p>
+                <script>
+                       $(document).ready(function () {
+                           $("@(".hide-pending-" + @Job.JobId)").hide();
+                        });
+                </script>
+
+                <div id="@("result-complete-display-" + Job.JobId)"></div>
+
+                <h5><span class="@("result-pending-undo-hide-" + Job.JobId)" >Current Status: Pending </span></h5>
+                <h5><span class="@("hide-pending-" + Job.JobId)">Current Status: Claimed</span></h5>
+
+                <p><span class="@("result-pending-undo-hide-" + Job.JobId)"><a class="@("result-pending-undo-" + Job.JobId)">Undo Pending</a> | </span><span class="@("hide-pending-" + Job.JobId)"><a class="@("active-job-" + Job.JobId)">Change to Pending</a> | </span><a class="@("result-complete-" + Job.JobId)">Change to Complete</a></p>
 
             }
 
 
 
+        <hr />
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("@(".active-job-" + @Job.JobId)").click(function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        type: 'GET',
+                        data: {id :  @Job.JobId},
+                        url: '@Url.Action("ActiveJob")',
+                        success: function (result) {
+                            $("@(".hide-pending-" + @Job.JobId)").hide();
+                            $("@(".result-pending-undo-hide-" + @Job.JobId)").show();
+                            }
+                        });
+                    });
+                $("@(".result-pending-undo-" + @Job.JobId)").click(function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        type: 'GET',
+                        data: {id :  @Job.JobId},
+                        url: '@Url.Action("UndoActiveJob")',
+                        success: function (result) {
+                            $("@(".result-pending-undo-hide-" + @Job.JobId)").hide();
+                            $("@(".hide-pending-" + @Job.JobId)").show();
+                        }
+                    });
+                });
+                $("@(".result-complete-" + Job.JobId)").click(function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        type: 'GET',
+                        data: {id :  @Job.JobId},
+                        url: '@Url.Action("CompleteJob")',
+                        success: function (result) {
+                            var resultPend = "#result-complete-display-" + @Job.JobId;
+                            var resultCompleteDisplay = "<h5>Current Status: Completed</h5>"
+                            console.log(@Job.JobId);
+                            $("@(".result-pending-undo-hide-" + @Job.JobId)").hide();
+                            $("@(".hide-pending-" + @Job.JobId)").hide();
+                            $("@(".result-complete-" + @Job.JobId)").hide();
+                            $(resultPend).html(resultCompleteDisplay);
+                        }
+                    });
+                });
+            });
+        </script>
         }
         @if (Model.Avaliable)
         {
