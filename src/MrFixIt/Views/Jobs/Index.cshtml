@@ -1,8 +1,11 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Inventory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@using System.Security.Claims
+@model IEnumerable<MrFixIt.Models.Job>
+
 <div class="text-center">
     <h3>Our Current Jobs</h3>
     @Html.ActionLink("Add a new job", "Create")
@@ -16,16 +19,42 @@
         </ul>
         @if (Job.Worker == null)
         {
-        <li class="btn">This job is unclaimed. @Html.ActionLink("Claim This Job", "Claim", new { @text = @Job.Title, id = Job.JobId })</li>
+            <li class="btn">This job is unclaimed. </li>
+            <span class="claim-view">@Html.ActionLink("Claim this Job", "Claim", new { id = Job.JobId})</span>
+
+
+            <script type="text/javascript">
+            $(document).ready(function () {
+            $('.claim-view').click(function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'GET',
+                dataType: 'html',
+                data: {id : @Job.JobId},
+                url: '@Url.Action("Claim")',
+                success: function (result) {
+                    console.log(result);
+                    $('.display-claim').html(result);
+                }
+            });
+        });
+    });
+            </script>
+
         }
         else
         {
             <li class="btn">This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName</li>
 
         }
-    </ul>
+        </ul>
 
+        
+
+
+   
 
     <hr />
 }
+<div class="col-lg-4 display-claim"></div>
 

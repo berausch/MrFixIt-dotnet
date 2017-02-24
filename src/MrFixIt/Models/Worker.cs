@@ -15,7 +15,9 @@ namespace MrFixIt.Models
         public int WorkerId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        
         public bool Avaliable { get; set; }
+        //Is "Available" dependent on whether the worker has a job? or is it whether they are available in general?
         public string UserName { get; set; }
         //this comes from Identity.User
         public virtual ICollection<Job> Jobs { get; set; }
@@ -25,5 +27,7 @@ namespace MrFixIt.Models
             Avaliable = true;
         }
 
+
+        //Workers are not a different User Role, they are an object, and everyone who signs in is a User...
     }
 }

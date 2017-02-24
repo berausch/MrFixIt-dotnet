@@ -14,6 +14,7 @@ namespace MrFixIt.Models
         public string Description { get; set; }
         public bool Completed { get; set; }
         public bool Pending { get; set; }
+        //Does Pending change once a worker has chosen a job, or only after they have started working on it?
         public virtual Worker Worker { get; set; }
 
         public Worker FindWorker(string UserName)
@@ -21,5 +22,7 @@ namespace MrFixIt.Models
             Worker thisWorker = new MrFixItContext().Workers.FirstOrDefault(i => i.UserName == UserName);
             return thisWorker;
         }
+
+
     }
 }

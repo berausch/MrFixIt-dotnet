@@ -1,14 +1,17 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
 
 }
 
 @model MrFixIt.Models.Job
 
+@using System.Security.Claims
+
     <h2>Create new Job</h2>
         <hr />
+
+@if(User.Identity.IsAuthenticated)
+{
+
         <h4>Add a new job</h4>
         @using (Html.BeginForm())
         {
@@ -18,4 +21,19 @@
             @Html.TextBoxFor(model => model.Description, new { @required = "true" })
             <input type="submit" value="Add new job" />
         }
+}
+else
+{
+    <h3>Oh No! </h3>
+    <h3>You must have an Account to Create a Job</h3>
+    <br />
+
+<h4>Make an Account with Mr Fix-It Today!</h4>
+<p> @Html.ActionLink("Register", "Register", "Account")</p>
+
+<br />
+<h4>Already have an Account?</h4>
+<p>@Html.ActionLink("Log In", "Login", "Account")</p>
+}
+<br />
         <p>@Html.ActionLink("Back to list", "Index")</p>
