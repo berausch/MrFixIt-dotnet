@@ -1,16 +1,36 @@
-### Mr Fix-It
-#### A repair technician job service.
+﻿﻿# _{Mr Fix-it}_
 
-COMPLETED:
-* Users can register and log on
-* Users may sign up to be "workers" on the site.
-* New jobs may be added to the jobs list.
-* A job can be assigned to a worker.
-* A worker may take on mulitple jobs from the Worker Dashboard.
+#### _{.Net Exercise for Epicodus}, {02.10.2017}_
 
-IN PROGRESS
-* Make *claiming* a job an **AJAX** action.
+#### By _**{Brittany Rausch}**_
 
-NEXT UP
-* A worker may designate one **active** job at a time. **AJAX**
-* Workers may mark jobs complete, and select a new active job. **AJAX**
+## Description
+
+_{This is a .Net exercise made for Epicodus that was fixed for the client "Mr Fix It". A user is able to have basic Identity functionality. They can register an account, login, and post jobs. They can also create a worker account that allows them to claim jobs other users have posted. Once a worker has claimed a job, they can mar the job as pending, or completed.}_
+
+## Setup/Installation Requirements
+
+* _Go to https://github.com/berausch/MrFixIt-dotnet.git
+* _Clone the repository
+* _Open the project in Visual Studio
+* _Open your terminal and navigate to this projects src folder in Visual Studio
+* _Run the Following Command:
+* _   dotnet ef database update
+* _Start the project by clicking the green arrow with the words IIS Express
+* _Check out the website!
+
+## Technologies Used
+
+_html
+_css
+_C#
+_.Net
+_Visual Studio
+_Github
+_Bootstrap
+
+### License
+
+*{MIT}*
+
+Copyright (c) 2016 **_Brittany Rausch_**
