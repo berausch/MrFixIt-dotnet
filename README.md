@@ -1,6 +1,6 @@
-﻿﻿# _{Mr Fix-it}_
+﻿﻿ _Mr Fix-it_
 
-#### _{.Net Exercise for Epicodus}, {02.10.2017}_
+#### _.Net Exercise for Epicodus, 02.24.2017_
 
 #### By _**{Brittany Rausch}**_
 
