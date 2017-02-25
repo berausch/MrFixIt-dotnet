@@ -1,4 +1,33 @@
 ﻿body {
-    padding-top: 70px;
+    padding-top: 200px;
     color: navy;
+}
+
+.logo {
+    width: 250px;
+    float: left;
+}
+
+.head-custom {
+    height: 170px;
+}
+.navbar {
+    background-color: #FFC966;
+    font-size: 22px;
+    border-color: #145c9c;
+    border-width: 3px;
+    
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #145c9c;
+    padding-top: 70px;
+}
+
+.logo2 {
+   float: right;
+   height: 160px;
+   padding-right: 20%;
+   padding-top: 5px;
+   
 }
