@@ -6,6 +6,24 @@
 @using System.Security.Claims
 @model IEnumerable<MrFixIt.Models.Job>
 
+<script type="text/javascript">
+            $(document).ready(function () {
+                $('.claim-view').click(function (event) {
+                    var theId = $(this).attr("id");
+                    event.preventDefault();
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'html',
+                        data: { id : theId },
+                        url: '@Url.Action("Claim")',
+                        success: function (result) {
+                            $('.display-claim').html(result);
+                        }
+                    });
+                });
+            });
+</script>
+
 <div class="text-center">
     <h3>Our Current Jobs</h3>
     @Html.ActionLink("Add a new job", "Create")
@@ -13,33 +31,17 @@
 @foreach (var Job in Model)
 {
     <ul>
+
         <li>@Job.Title</li>
         <ul>
             <li>@Job.Description</li>
         </ul>
         @if (Job.Worker == null)
         {
-            <li class="btn">This job is unclaimed. </li>
-            <span class="claim-view">@Html.ActionLink("Claim this Job", "Claim", new { id = Job.JobId})</span>
+            <p class="btn">This job is unclaimed.  | <a href="#" class="claim-view" id="@Job.JobId">Claim this Job</a></p>
 
 
-            <script type="text/javascript">
-            $(document).ready(function () {
-            $('.claim-view').click(function (event) {
-            event.preventDefault();
-            $.ajax({
-                type: 'GET',
-                dataType: 'html',
-                data: {id : @Job.JobId},
-                url: '@Url.Action("Claim")',
-                success: function (result) {
-                    console.log(result);
-                    $('.display-claim').html(result);
-                }
-            });
-        });
-    });
-            </script>
+
 
         }
         else
@@ -47,14 +49,15 @@
             <li class="btn">This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName</li>
 
         }
-        </ul>
-
-        
 
 
-   
 
-    <hr />
+
+
+
+
+        <hr />
+
+    </ul>
 }
 <div class="col-lg-4 display-claim"></div>
-

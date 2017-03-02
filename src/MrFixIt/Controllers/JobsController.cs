@@ -38,6 +38,7 @@ namespace MrFixIt.Controllers
         public IActionResult Claim(int id)
         {
             var thisItem = db.Jobs.FirstOrDefault(items => items.JobId == id);
+            Debug.WriteLine(id);
             return View(thisItem);
         }
 
